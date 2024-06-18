@@ -34,8 +34,10 @@ app.get('/', async (req, res) => {
 
     users.push(user)
     const newUsers = _.partition(users, (item) => item.gender === 'female')
-    const females = users.filter(item => item.gender === 'female')
-    const male = users.filter(item => item.gender === 'male')
+    const females = newUsers[0];
+    const males = newUsers[1];
+
+    console.log(chalk.bgWhite.blue(JSON.stringify({ females, males }, null, 2)));
 
     res.json({
         females, male
@@ -69,13 +71,12 @@ app.get('/mail', async (req, res) => {
         }
     });
 
-    // send mail with defined transport object
     const info = await transport.sendMail({
-        from: '"Maddison Foo Koch 👻" <maddison53@ethereal.email>', // sender address
-        to: "bar@example.com, baz@example.com", // list of receivers
-        subject: "Hello ✔", // Subject line
-        text: "Hello world?", // plain text body
-        html: "<b>Hello world?</b>", // html body
+        from: '"Maddison Foo Koch 👻" <maddison53@ethereal.email>', 
+        to: "bar@example.com, baz@example.com",
+        subject: "Hello ✔", 
+        text: "Hello world?", 
+        html: "<b>Hello world?</b>",
     });
 
     console.log("Message sent: %s", info.messageId);
