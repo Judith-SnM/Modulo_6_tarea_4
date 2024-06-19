@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Usuarios</title>
+    <link rel="stylesheet" href="/public/styles.css">
+</head>
+
+<body>
+    <div class="container">
+        <h1>Lista de Usuarios</h1>
+        <div class="users" id="users">
+
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.20.0/axios.min.js"></script>
+    <script>
+        axios.get('/users')
+            .then(response => {
+                const usersContainer = document.getElementById('users');
+                usersContainer.innerHTML = '';
+                response.data.users.forEach(user => {
+                    const userElement = document.createElement('div');
+                    userElement.classList.add('user');
+                    userElement.innerHTML = `
+                        <strong>Nombre:</strong> ${user.first} ${user.last}<br>
+                        <strong>ID:</strong> ${user.id}<br>
+                        <strong>Timestamp:</strong> ${user.timestamp}<br>
+                    `;
+                    usersContainer.appendChild(userElement);
+                });
+            })
+            .catch(error => {
+                console.error('Error al obtener usuarios:', error);
+            });
+    </script>
+</body>
+
+</html>
